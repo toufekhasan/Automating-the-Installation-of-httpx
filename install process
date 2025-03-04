@@ -1,0 +1,30 @@
+🚀 Automating the Installation of httpx | Author: Toufek Hasan
+httpx is a powerful tool by ProjectDiscovery for probing web servers. To make the installation process seamless on Kali Linux, I created a Bash script that automates everything from updating the system to configuring httpx for system-wide use.
+
+🔧 What This Script Does:
+✅ Updates Kali Linux
+✅ Installs Golang
+✅ Sets up Go environment variables
+✅ Clones and installs httpx
+✅ Moves the httpx binary to /usr/local/bin for easy access
+
+🚀 Installation & Usage:
+1️⃣ Clone this repository: git clone https://github.com/yourusername/httpx-installer.git
+
+2️⃣ Give execution permission and run:
+
+chmod +x install_httpx.sh
+./install_httpx.sh
+
+3️⃣ Verify installation:
+
+httpx -version
+
+🔗 Why Use This Script?
+Manually installing tools can be time-consuming. This script ensures a smooth, error-free setup so you can focus on penetration testing and security research instead of troubleshooting dependencies.
+
+💡 Contributions & feedback are welcome! Let's improve automation in cybersecurity together.
+
+📌 Follow me for more:
+LinkedIn :www.linkedin.com/in/toufekhasan
+GitHub : 
