@@ -1,35 +1,51 @@
 #!/bin/bash
 
+# Exit immediately if a command exits with a non-zero status
+set -e
+
 # Update Kali Linux
-sudo apt update -y
+echo "🔄 Updating system packages..."
+sudo apt update -y && sudo apt upgrade -y
 
-# Install Golang
-echo "Installing Golang..."
-sudo apt install golang-go -y
+# Install Golang and Git
+echo "📦 Installing Golang and Git..."
+sudo apt install -y golang-go git
 
-# Set Go environment variables (optional, adjust paths as needed)
-echo "Setting Go environment variables..."
+# Set Go environment variables
+echo "⚙️ Setting Go environment variables..."
 export GOPATH=$HOME/go
 export PATH=$GOPATH/bin:$PATH
 
-echo 'export GOPATH=$HOME/go' >> ~/.bashrc
-echo 'export PATH=$GOPATH/bin:$PATH' >> ~/.bashrc
+# Add to .bashrc if not already added
+grep -qxF 'export GOPATH=$HOME/go' ~/.bashrc || echo 'export GOPATH=$HOME/go' >> ~/.bashrc
+grep -qxF 'export PATH=$GOPATH/bin:$PATH' ~/.bashrc || echo 'export PATH=$GOPATH/bin:$PATH' >> ~/.bashrc
+
+# Apply changes to current session
 source ~/.bashrc
 
 # Install httpx
-echo "Cloning httpx repository..."
-git clone https://github.com/projectdiscovery/httpx.git ~/httpx
-cd ~/httpx
-
-echo "Building httpx..."
+echo "🚀 Installing httpx..."
 go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
 
-# Move httpx binary to /usr/local/bin for system-wide access
-echo "Moving httpx binary to /usr/local/bin..."
-sudo cp $HOME/go/bin/httpx /usr/local/bin/
+# Install waybackurls
+echo "🚀 Installing waybackurls..."
+go install -v github.com/tomnomnom/waybackurls@latest
+
+# Move binaries to /usr/local/bin
+echo "📂 Moving binaries to /usr/local/bin..."
+sudo cp "$GOPATH/bin/httpx" /usr/local/bin/
+sudo cp "$GOPATH/bin/waybackurls" /usr/local/bin/
 
 # Verify installation
-echo "Verifying installation..."
-httpx -version
+echo ""
+echo "✅ Verifying installations..."
+httpx_version=$(httpx -version 2>/dev/null || echo "httpx not found")
+waybackurls_version=$(waybackurls -h 2>&1 | grep -i usage || echo "waybackurls not found")
 
-echo "Installation complete!"
+echo ""
+echo "✅ Installation Summary:"
+echo "---------------------------"
+echo "📌 httpx: $httpx_version"
+echo "📌 waybackurls: Installed and accessible via command line"
+echo "---------------------------"
+echo "🎉 Both tools installed successfully!"
